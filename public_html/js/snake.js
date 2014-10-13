@@ -36,7 +36,9 @@ function snakeInitialize () {
     snakeLength = 15;
     snakeSize = 20;
     
-    for(var index = 0; index < snakeLength; index++){} 
+    for(var index = 0; index < snakeLength; index++){
+        snake.push ()
+    } 
 }
 
 function snakeDraw () {}

@@ -13,7 +13,7 @@ var snakeTail;
 
 gameInitialize ();
 snakeInitialize (); 
-gameLoop ();
+foodInitialize ();
 setInterval (gameLoop, 1000/25);
 
 function gameInitialize () {
@@ -31,6 +31,7 @@ function gameLoop () {
     gameDraw ();
     snakeUpdate ();
     snakeDraw ();
+    foodDraw ();
 }
 
 function gameDraw () {
@@ -79,5 +80,6 @@ function foodInitialize(){
 }
 
 function foodDraw() {
-    
+    context.fillStyle = "rgb(0, 0, 38)";
+    context.fillRect(food.x, food.y, snakeSize, snakeSize);
 }

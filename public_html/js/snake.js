@@ -17,6 +17,10 @@ var snakeSize;
 var snakeHead;
 var snakeTail;
 
+var keyboardHandler;
+
+
+
 /* ___________________________________________________________________________
  * Excecuting game code                                                      /
  * __________________________________________________________________________\
@@ -42,6 +46,8 @@ function gameInitialize () {
     
     canvas.width = screenWidth;
     canvas.height = screenHeight;
+    
+    document.addEventListener("keydown",keyboardHandler );
 }
 
 /* ___________________________________________________________________________
@@ -56,9 +62,9 @@ function gameLoop () {
     foodDraw ();
 }
 
-/* ___________________________________________________________________________
- * Gives the style of the game                                               /
- * __________________________________________________________________________\
+/* _______________________________
+ * Gives the style of the game   /
+ * ______________________________\
  */
 
 function gameDraw () {
@@ -66,14 +72,14 @@ function gameDraw () {
     context.fillRect(0, 0, screenWidth, screenHeight);
 }
 
-/* ___________________________________________________________________________
- * Gives the initial length of the snake                                     /       
- * __________________________________________________________________________\
+/* __________________________________________
+ * Gives the initial length of the snake    /       
+ * _________________________________________\
  */                                                                                                                                                                                                                  
 
 function snakeInitialize () {
     snake = [];
-    snakeLength = 5;
+    snakeLength = 1;
     snakeSize = 20;
     snakeDirection = "down";
     
@@ -85,9 +91,9 @@ function snakeInitialize () {
     } 
 }
 
-/* ___________________________________________________________________________
- * Gives the style of the snake                                              /
- * __________________________________________________________________________\
+/* _______________________________
+ * Gives the style of the snake  /
+ * ______________________________\
  */
 
 function snakeDraw () {
@@ -97,9 +103,9 @@ function snakeDraw () {
     }
 }
 
-/* ___________________________________________________________________________
- * Updates the length of the snake                                           /
- * __________________________________________________________________________\
+/* __________________________________
+ * Updates the length of the snake  /
+ * _________________________________\
  */
 
 function snakeUpdate () {
@@ -109,10 +115,19 @@ function snakeUpdate () {
     if (snakeDirection == "down") {
         snakeHeadY++;
     }
-    else {
+    else if(snakeDirection == "right"){
         snakeHeadX++;
     }
+    else if(snakeDirection == "up") {
+        snakeHeadY--;
+    }
+    else if(snakeDirection == "left") {
+        snakeHeadX--;
+    }
     
+    checkFoodCollisions(snakeHeadX, snakeHeadY);
+    checkWallColisions(snakeHeadX, snakeHeadY);
+
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
     snakeTail.y = snakeHeadY;
@@ -139,7 +154,7 @@ function foodInitialize(){
 
 function foodDraw() {
     context.fillStyle = "rgb(0, 0, 38)";
-    context.fillRect(food.x, food.y, snakeSize, snakeSize);
+    context.fillRect(food.x * snakeSize, food.y * snakeSize, snakeSize, snakeSize);
 }
 
 /* ___________________________________________________________________________
@@ -151,6 +166,54 @@ function setFoodPosition () {
     var randomX = Math.floor(Math.random() * screenWidth);
     var randomY = Math.floor(Math.random() * screenHeight);
     
-    food.x = randomX;
-    food.y = randomY;
+    food.x = Math.floor (randomX / snakeSize);
+    food.y = Math.floor (randomY / snakeSize);
+}
+
+/* ___________________________________________________________________________
+ * Input functions                                                           /
+ * __________________________________________________________________________\
+ */
+
+function keyboardHandler (event) {
+    console.log(event);
+    
+    if(event.keyCode == "39" && snakeDirection != "left") {
+        snakeDirection = "right";
+    }
+    
+    else if(event.keyCode == "40" && snakeDirection != "up") {
+        snakeDirection = "down";
+    }
+    
+    else if(event.keyCode == "37" && snakeDirection != "right") {
+        snakeDirection = "left";
+    }
+    
+    else if(event.keyCode == "38" && snakeDirection != "down") {
+        snakeDirection = "up";
+    }  
+}
+
+/* ___________________________________________________________________________
+ * Colision handling                                                         /
+ * __________________________________________________________________________\
+ */
+
+function checkFoodCollisions (snakeHeadX, snakeHeadY) {
+    if(snakeHeadX == food.x && snakeHeadY == food.y){
+        snake.push ({
+            x:0,
+            y:0
+        });
+        snakeLength++;
+        setFoodPosition();      
+    }
+    
+}
+
+function checkWallCollisions (snakeHeadX, snakeHeadY) {
+    if (snakeHeadX * snakeSize >= screenWidth) {
+        console.log("Wall Collision");
+    }
 }

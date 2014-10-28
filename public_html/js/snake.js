@@ -18,6 +18,7 @@ var snakeHead;
 var snakeTail;
 
 var keyboardHandler;
+var gameState;
 
 
 
@@ -48,6 +49,8 @@ function gameInitialize () {
     canvas.height = screenHeight;
     
     document.addEventListener("keydown",keyboardHandler );
+    
+    setState("PLAY");
 }
 
 /* ___________________________________________________________________________
@@ -57,9 +60,11 @@ function gameInitialize () {
 
 function gameLoop () {
     gameDraw ();
-    snakeUpdate ();
-    snakeDraw ();
-    foodDraw ();
+    if (gameState == "PLAY") {
+        snakeUpdate();
+        snakeDraw();
+        foodDraw();
+    }
 }
 
 /* _______________________________
@@ -88,7 +93,7 @@ function snakeInitialize () {
             x: index,
             y: 0
         });
-    } 
+    }
 }
 
 /* _______________________________
@@ -126,7 +131,7 @@ function snakeUpdate () {
     }
     
     checkFoodCollisions(snakeHeadX, snakeHeadY);
-    checkWallColisions(snakeHeadX, snakeHeadY);
+    checkWallCollisions(snakeHeadX, snakeHeadY);
 
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
@@ -213,7 +218,22 @@ function checkFoodCollisions (snakeHeadX, snakeHeadY) {
 }
 
 function checkWallCollisions (snakeHeadX, snakeHeadY) {
-    if (snakeHeadX * snakeSize >= screenWidth) {
+    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX  * snakeSize < 0) {
         console.log("Wall Collision");
     }
+    else if (snakeHeadY * snakeSize >= screenHeight || snakeHeadY  * snakeSize < 0) {
+        console.log("Wall Collision");
+    }
+    
+    setState("GAME OVER")
+}
+
+/* ___________________________________________________________________________
+ * Game state                                                                /
+ * __________________________________________________________________________\
+ */
+
+
+function setState(state){
+    gameState = state;
 }

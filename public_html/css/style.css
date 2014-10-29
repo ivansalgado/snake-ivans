@@ -6,3 +6,14 @@ body {
 #game-screen{
     display: block;
 }
+
+#gameOver{
+    position: absolute;
+    visibility: hidden;
+}
+
+h1, h3{
+    font-family: 'Monoton', cursive;
+    color: #002663;
+    text-align: center;
+}

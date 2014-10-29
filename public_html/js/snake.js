@@ -20,6 +20,8 @@ var snakeTail;
 var keyboardHandler;
 var gameState;
 
+var gameOverMenu;
+
 
 
 /* ___________________________________________________________________________
@@ -49,6 +51,8 @@ function gameInitialize () {
     canvas.height = screenHeight;
     
     document.addEventListener("keydown",keyboardHandler );
+    
+    gameOverMenu = document.getElementById("");
     
     setState("PLAY");
 }
@@ -212,20 +216,16 @@ function checkFoodCollisions (snakeHeadX, snakeHeadY) {
             y:0
         });
         snakeLength++;
-        setFoodPosition();      
+             
     }
-    
+setFoodPosition();     
 }
 
 function checkWallCollisions (snakeHeadX, snakeHeadY) {
-    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX  * snakeSize < 0) {
+    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0) {
         console.log("Wall Collision");
+        setState("GAME OVER");
     }
-    else if (snakeHeadY * snakeSize >= screenHeight || snakeHeadY  * snakeSize < 0) {
-        console.log("Wall Collision");
-    }
-    
-    setState("GAME OVER")
 }
 
 /* ___________________________________________________________________________
@@ -236,4 +236,16 @@ function checkWallCollisions (snakeHeadX, snakeHeadY) {
 
 function setState(state){
     gameState = state;
+    showMenu(state);
+}
+
+function displayMenu(menu) {
+    menu.style.visibility = "visible";
+}
+
+function showMenu(state) {
+    if(state == "GAME OVER") {
+        displayMenu(gameOverMenu);
+    }
+        
 }

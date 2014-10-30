@@ -8,12 +8,27 @@ body {
 }
 
 #gameOver{
-    position: absolute;
+    position:absolute;
     visibility: hidden;
 }
 
 h1, h3{
     font-family: 'Monoton', cursive;
-    color: #002663;
+    color: #ff5722;
     text-align: center;
+}
+
+.title{
+    font-size: 125px;
+    margin-bottom: 0px;
+}
+
+#restartButton{
+    border: 5px solid #ff5722;
+    border-radius: 10px;
+}
+
+#restartButton:hover {
+    background-color: #ff5722;
+    color: #fdd835;
 }

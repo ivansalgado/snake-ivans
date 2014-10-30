@@ -1,6 +1,6 @@
-/* ___________________________________________________________________________
- * Variables                                                                 /
- * __________________________________________________________________________\
+/* _____________
+ * Variables   /
+ * ____________\
  */
 
 var snake;
@@ -24,9 +24,9 @@ var gameOverMenu;
 
 
 
-/* ___________________________________________________________________________
- * Excecuting game code                                                      /
- * __________________________________________________________________________\
+/* ________________________
+ * Excecuting game code   /
+ * _______________________\
  */
 
 gameInitialize ();
@@ -35,9 +35,9 @@ foodInitialize ();
 setInterval (gameLoop, 1000/25);
 setFoodPosition ();
 
-/* ___________________________________________________________________________
- * Dimensions of the game screen                                             /
- * __________________________________________________________________________\
+/* ________________________________
+ * Dimensions of the game screen  /
+ * _______________________________\
  */
 
 function gameInitialize () {
@@ -52,14 +52,18 @@ function gameInitialize () {
     
     document.addEventListener("keydown",keyboardHandler );
     
-    gameOverMenu = document.getElementById("");
+    gameOverMenu = document.getElementById("gameOver");
+    centerMenuPosition(gameOverMenu);
+    
+    restartButton = document.getElementById("restartButton");
+    restart.addEventListener
     
     setState("PLAY");
 }
 
-/* ___________________________________________________________________________
- * Updates the snake / Moves food                                            /
- * __________________________________________________________________________\
+/* ___________________________________
+ * Updates the snake / Moves food    /
+ * __________________________________\
  */ 
 
 function gameLoop () {
@@ -77,7 +81,7 @@ function gameLoop () {
  */
 
 function gameDraw () {
-    context.fillStyle = "rgb(128, 222, 234)";
+    context.fillStyle = "rgb(255, 235, 59)";
     context.fillRect(0, 0, screenWidth, screenHeight);
 }
 
@@ -107,7 +111,7 @@ function snakeInitialize () {
 
 function snakeDraw () {
     for(var index = 0; index < snake.length; index++) {
-        context.fillStyle = "rgb(0, 0, 38)";
+        context.fillStyle = "rgb(255, 87, 34)";
         context.fillRect(snake[index].x * snakeSize, snake[index].y * snakeSize, snakeSize, snakeSize);
     }
 }
@@ -136,6 +140,7 @@ function snakeUpdate () {
     
     checkFoodCollisions(snakeHeadX, snakeHeadY);
     checkWallCollisions(snakeHeadX, snakeHeadY);
+    checkSnakeCollisions(snakeHeadX, snakeHeadY);
 
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
@@ -143,9 +148,9 @@ function snakeUpdate () {
     snake.unshift(snakeTail);
 }
 
-/* ___________________________________________________________________________
- * Gives the location food on the screen                                     /
- * __________________________________________________________________________\
+/* __________________________________________
+ * Gives the location food on the screen    /
+ * _________________________________________\
  */
 
 function foodInitialize(){
@@ -156,19 +161,19 @@ function foodInitialize(){
     setFoodPosition;
 }
 
-/* ___________________________________________________________________________
- * Gives the style of the food                                               /
- * __________________________________________________________________________\
+/* ________________________________
+ * Gives the style of the food    /
+ * _______________________________\
  */
 
 function foodDraw() {
-    context.fillStyle = "rgb(0, 0, 38)";
+    context.fillStyle = "rgb(255, 87, 34)";
     context.fillRect(food.x * snakeSize, food.y * snakeSize, snakeSize, snakeSize);
 }
 
-/* ___________________________________________________________________________
- * Randomly positions the food                                               /
- * __________________________________________________________________________\
+/* ______________________________
+ * Randomly positions the food  /
+ * _____________________________\
  */
 
 function setFoodPosition () {
@@ -179,9 +184,9 @@ function setFoodPosition () {
     food.y = Math.floor (randomY / snakeSize);
 }
 
-/* ___________________________________________________________________________
- * Input functions                                                           /
- * __________________________________________________________________________\
+/* ___________________
+ * Input functions   /
+ * __________________\
  */
 
 function keyboardHandler (event) {
@@ -204,21 +209,21 @@ function keyboardHandler (event) {
     }  
 }
 
-/* ___________________________________________________________________________
- * Colision handling                                                         /
- * __________________________________________________________________________\
+/* ____________________
+ * Colision handling  /
+ * ___________________\
  */
 
 function checkFoodCollisions (snakeHeadX, snakeHeadY) {
-    if(snakeHeadX == food.x && snakeHeadY == food.y){
-        snake.push ({
-            x:0,
-            y:0
+    if (snakeHeadX == food.x && snakeHeadY == food.y) {
+        snake.push({
+            x: 0,
+            y: 0
         });
         snakeLength++;
-             
+        setFoodPosition();     
     }
-setFoodPosition();     
+
 }
 
 function checkWallCollisions (snakeHeadX, snakeHeadY) {
@@ -226,11 +231,27 @@ function checkWallCollisions (snakeHeadX, snakeHeadY) {
         console.log("Wall Collision");
         setState("GAME OVER");
     }
+    else if (snakeHeadY * snakeSize >= screenWidth || snakeHeadY * snakeSize < 0) {
+        console.log("Wall Collision");
+        setState("GAME OVER");
+    }
 }
 
-/* ___________________________________________________________________________
- * Game state                                                                /
- * __________________________________________________________________________\
+function checkSnakeCollisions (snakeHeadX, snakeHeadY) {
+    if (snakeHeadX * snakeSize >= snake || snakeHeadX * snakeSize < snake) {
+        console.log("Snake Collision");
+        setState ("GAME OVER");
+    }
+    else if (snakeHeadY * snakeSize >= snake || snakeHeadY * snakeSize < snake) {
+        console.log("Snake Collision");
+        setState ("GAME OVER");
+    }
+        
+}
+
+/* ______________
+ * Game state   /
+ * _____________\
  */
 
 
@@ -239,13 +260,22 @@ function setState(state){
     showMenu(state);
 }
 
+/* _____________________________________
+ * Menu functions
+ * ____________________________________
+ */
+
 function displayMenu(menu) {
     menu.style.visibility = "visible";
 }
 
 function showMenu(state) {
-    if(state == "GAME OVER") {
-        displayMenu(gameOverMenu);
-    }
-        
+        if (state == "GAME OVER") {
+            displayMenu(gameOverMenu);
+        }
+}
+
+function centerMenuPosition(menu){
+    menu.style.top = (screenHeight / 2) - (menu.offsetHeight / 1.5) + "px";
+    menu.style.left = (screenWidth / 2) - (menu.offsetWidth / 1.70) + "px";
 }

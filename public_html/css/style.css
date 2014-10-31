@@ -1,6 +1,6 @@
-body {
-    margin: 0;
-    padding: 0;
+body{
+    margin: 0px;
+    padding: 0px;
 }
 
 #game-screen{
@@ -8,11 +8,11 @@ body {
 }
 
 #gameOver{
-    position:absolute;
+    position: absolute;
     visibility: hidden;
 }
 
-h1, h3{
+h1, h2, h3{
     font-family: 'Monoton', cursive;
     color: #ff5722;
     text-align: center;
@@ -21,14 +21,22 @@ h1, h3{
 .title{
     font-size: 125px;
     margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 #restartButton{
-    border: 5px solid #ff5722;
-    border-radius: 10px;
+    border: 2px solid #ff5722;
+    border-radius: 10px; 
 }
 
 #restartButton:hover {
-    background-color: #ff5722;
-    color: #fdd835;
+    background-color: #ffd54f;
+    color: #ff5722;
 }
+
+#scoreboard{
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+}
+

@@ -272,6 +272,8 @@ function checkSnakeCollisions (snakeHeadX, snakeHeadY) {
 }
 }
         
+
+
 /* ______________
  * Game state   /
  * _____________\
@@ -311,5 +313,7 @@ function centerMenuPosition(menu){
 }
 
 function drawScoreboard(){
-    scoreboard.innerHTML = "size " + snakeLength;
+    scoreboard.innerHTML = "size " + snakeLength;;
 }
+
+

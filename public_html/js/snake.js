@@ -21,6 +21,8 @@ var keyboardHandler;
 
 var gameState;
 var gameOverMenu;
+var gameStartMenu;
+var startButton;
 var restartButton;
 var playHUD;
 
@@ -55,6 +57,12 @@ function gameInitialize () {
     
     document.addEventListener("keydown",keyboardHandler );
     
+    gameStartMenu = document.getElementById("gameStart");
+    centerMenuPosition(gameStartMenu);
+    
+    startButton = document.getElementById("playButton");
+    startButton.addEventListener("click", gameStart);
+    
     gameOverMenu = document.getElementById("gameOver");
     centerMenuPosition(gameOverMenu);
     
@@ -64,7 +72,7 @@ function gameInitialize () {
     playHUD = document.getElementById("playHUD");
     scoreboard = document.getElementById("scoreboard");
     
-    setState("PLAY");
+    setState("START");
 }
 
 /* ___________________________________
@@ -85,6 +93,14 @@ function gameLoop () {
 function gameRestart () {
     snakeInitialize();
     foodInitialize(setFoodPosition);
+    hideMenu(gameOverMenu);
+    setState("PLAY");
+}
+
+function gameStart () {
+    snakeInitialize();
+    foodInitialize(setFoodPosition);
+    hideMenu(gameStartMenu);
     hideMenu(gameOverMenu);
     setState("PLAY");
 }
@@ -224,7 +240,7 @@ function keyboardHandler (event) {
 }
 
 /* ____________________
- * Colision handling  /
+ * Collision handling  /
  * ___________________\
  */
 
@@ -245,7 +261,7 @@ function checkWallCollisions (snakeHeadX, snakeHeadY) {
         console.log("Wall Collision");
         setState("GAME OVER");
     }
-    else if (snakeHeadY * snakeSize >= screenWidth || snakeHeadY * snakeSize < 0) {
+    else if (snakeHeadY * snakeSize >= screenHeight || snakeHeadY * snakeSize < 0) {
         console.log("Wall Collision");
         setState("GAME OVER");
     }
@@ -297,12 +313,17 @@ function hideMenu(menu){
 }
 
 function showMenu(state) {
-        if (state == "GAME OVER") {
+        if (state == "START") {
+            displayMenu(gameStartMenu);
+        }
+    
+        else if (state == "GAME OVER") {
             displayMenu(gameOverMenu);
         }
+        
         else if (state == "PLAY") {
         displayMenu(playHUD);
-    }
+       }
 }
 
 function centerMenuPosition(menu){
